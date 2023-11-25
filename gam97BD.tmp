@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlb00o4pqfiwn"]
+
+[ext_resource type="Script" path="res://game_of_life.gd" id="1_6ysus"]
+[ext_resource type="Texture2D" uid="uid://dct24i8lpbum0" path="res://cells.png" id="1_djnhh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1g2qc"]
+texture = ExtResource("1_djnhh")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ruwrp"]
+sources/0 = SubResource("TileSetAtlasSource_1g2qc")
+
+[node name="GameOfLife" type="Node2D"]
+script = ExtResource("1_6ysus")
+
+[node name="Cells" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_ruwrp")
+format = 2
+layer_0/name = "CoolLayer"
+layer_0/tile_data = PackedInt32Array(524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 458764, 0, 0, 393227, 0, 0)
+
+[node name="CycleTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="CycleTimer" to="." method="_on_cycle_timer_timeout"]

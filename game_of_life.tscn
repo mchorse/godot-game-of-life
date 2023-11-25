@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlb00o4pqfiwn"]
+
+[ext_resource type="Script" path="res://game_of_life.gd" id="1_6ysus"]
+[ext_resource type="Texture2D" uid="uid://dct24i8lpbum0" path="res://cells.png" id="1_djnhh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jaqg4"]
+texture = ExtResource("1_djnhh")
+0:0/0 = 0
+1:0/next_alternative_id = 2
+1:0/0 = 0
+3:0/0 = 0
+2:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_20usv"]
+sources/0 = SubResource("TileSetAtlasSource_jaqg4")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo2n3"]
+atlas = ExtResource("1_djnhh")
+region = Rect2(0, 0, 16, 16)
+
+[node name="GameOfLife" type="Node2D"]
+script = ExtResource("1_6ysus")
+
+[node name="Cells" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_20usv")
+format = 2
+layer_0/tile_data = PackedInt32Array(720922, 0, 0, 720923, 0, 0, 720924, 0, 0, 786460, 0, 0, 851995, 0, 0, 524293, 65536, 0, 589829, 65536, 0, 655365, 65536, 0, 720902, 65536, 0, 786438, 65536, 0, 786439, 65536, 0, 786440, 65536, 0, 720904, 65536, 0, 655368, 65536, 0, 589832, 65536, 0, 589831, 65536, 0, 524295, 65536, 0, 589830, 65536, 0, 655366, 65536, 0, 720903, 65536, 0)
+
+[node name="CycleTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Score" type="Label" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_right = 110.0
+offset_bottom = 26.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+
+[node name="Preview" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+texture = SubResource("AtlasTexture_eo2n3")
+
+[connection signal="timeout" from="CycleTimer" to="." method="_on_cycle_timer_timeout"]
